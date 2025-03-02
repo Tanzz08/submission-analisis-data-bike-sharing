@@ -6,7 +6,7 @@ import seaborn as sns
 
 @st.cache_data
 def load_data():
-    day_df = pd.read_csv("day_df.csv")  
+    day_df = pd.read_csv("https://raw.githubusercontent.com/Tanzz08/submission-analisis-data-bike-sharing/refs/heads/main/dashboard/day_df.csv")  
     day_df['dteday'] = pd.to_datetime(day_df['dteday'])
     day_df['year'] = day_df['dteday'].dt.year
     day_df['month'] = day_df['dteday'].dt.strftime('%b')
