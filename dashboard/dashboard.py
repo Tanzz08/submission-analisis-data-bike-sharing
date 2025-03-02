@@ -3,10 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Load data (pastikan data sudah diproses seperti dalam kode sebelumnya)
+
 @st.cache_data
 def load_data():
-    day_df = pd.read_csv("https://raw.githubusercontent.com/Tanzz08/submission-analisis-data-bike-sharing/refs/heads/main/dashboard/day_df.csv")  
+    day_df = pd.read_csv("day_df.csv")  
     day_df['dteday'] = pd.to_datetime(day_df['dteday'])
     day_df['year'] = day_df['dteday'].dt.year
     day_df['month'] = day_df['dteday'].dt.strftime('%b')
@@ -16,14 +16,12 @@ def load_data():
 
 day_df = load_data()
 
-# Sidebar
 st.sidebar.header("Dashboard Bike Rentals")
 selected_years = st.sidebar.multiselect("Pilih Tahun", options=day_df['year'].unique(), default=day_df['year'].unique())
 
-# Filter data berdasarkan tahun yang dipilih
 filtered_df = day_df[day_df['year'].isin(selected_years)]
 
-# Monthly Trend
+
 st.subheader("Tren Peminjaman Sepeda per Bulan berdasarkan tahunnya")
 monthly_trend = filtered_df.groupby(['year', 'month']).agg({'cnt': 'sum'}).reset_index()
 fig, ax = plt.subplots(figsize=(10, 5))
@@ -38,7 +36,6 @@ st.pyplot(fig)
 
 st.write("Grafik menunjukkan adanya peningkatan jumlah peminjaman sepeda pada tahun 2012 dibandingkan tahun 2011, terutama pada bulan-bulan musim panas seperti Juni hingga September.")
 
-# Working Day vs Holiday Analysis
 st.subheader("Perbandingan Peminjaman Sepeda pada Hari Kerja dan Hari Libur")
 workingday_cnt = filtered_df.groupby('workingday')['cnt'].sum()
 holiday_cnt = filtered_df.groupby('holiday')['cnt'].sum()
